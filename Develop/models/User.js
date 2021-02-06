@@ -7,10 +7,10 @@ const UserSchema = new Schema({
     type: String,
     unique: true
   },
-  notes: [
+  workouts: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Note"
+      ref: "Workout"
     }
   ]
 });
