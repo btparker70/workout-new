@@ -1,6 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
 const mongoose = require("mongoose");
+const path = require("path");
 
 const PORT = process.env.PORT || 3000;
 
@@ -13,11 +14,14 @@ app.use(logger("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname + "/public")));
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/populatedb", { useNewUrlParser: true });
+// Routes
+app.use(require("./routes/html-routes.js"));
 
-db.User.create({ name: "Ernest Hemingway" })
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fitness", { useNewUrlParser: true });
+
+db.User.create({ name: "Jimmy Dunkis" })
   .then(dbUser => {
     console.log(dbUser);
   })
@@ -25,10 +29,10 @@ db.User.create({ name: "Ernest Hemingway" })
     console.log(message);
   });
 
-app.get("/notes", (req, res) => {
-  db.Note.find({})
-    .then(dbNote => {
-      res.json(dbNote);
+app.get("/workouts", (req, res) => {
+  db.Workout.find({})
+    .then(dbWorkout => {
+      res.json(dbWorkout);
     })
     .catch(err => {
       res.json(err);
@@ -46,8 +50,8 @@ app.get("/user", (req, res) => {
 });
 
 app.post("/submit", ({ body }, res) => {
-  db.Note.create(body)
-    .then(({ _id }) => db.User.findOneAndUpdate({}, { $push: { notes: _id } }, { new: true }))
+  db.Workout.create(body)
+    .then(({ _id }) => db.User.findOneAndUpdate({}, { $push: { workouts: _id } }, { new: true }))
     .then(dbUser => {
       res.json(dbUser);
     })
@@ -58,7 +62,7 @@ app.post("/submit", ({ body }, res) => {
 
 app.get("/populateduser", (req, res) => {
   db.User.find({})
-    .populate("notes")
+    .populate("workouts")
     .then(dbUser => {
       res.json(dbUser);
     })
