@@ -1,8 +1,8 @@
 const db = require("../models");
 const apiRouter = require("express").Router();
 
-apiRouter.get("/workouts", (req, res) => {
-db.Workout.find({})
+apiRouter.get("/api/workouts", (req, res) => {
+db.Workout.aggregate({})
   .then(dbWorkout => {
     res.json(dbWorkout);
   })
@@ -11,15 +11,14 @@ db.Workout.find({})
   });
 });
 
-// apiRouter.post("/submit", ({ body }, res) => {
-// db.Workout.create(body)
-//   .then(({ _id }) => db.User.findOneAndUpdate({}, { $push: { workouts: _id } }, { new: true }))
-//   .then(dbUser => {
-//     res.json(dbUser);
-//   })
-//   .catch(err => {
-//     res.json(err);
-//   });
-// });
+apiRouter.post("/api/workouts", (req, res) => {
+db.Workout.create({})
+  .then((data) => {
+    res.json(data);
+  })
+  .catch(err => {
+    res.json(err);
+  });
+});
 
 module.exports = apiRouter;
