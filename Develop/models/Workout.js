@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-// name, type, weight, sets, reps, and duration
+
 const WorkoutSchema = new Schema({
   day: {
     type: Date, 
@@ -8,12 +8,22 @@ const WorkoutSchema = new Schema({
   },
   exercises: [
     {
-    type: String,
-    name: String,
-    duration: Number,
+    type: {
+      type: String,
+      required: "Workout type required",
+    },
+    name: {
+      type: String,
+      required: "Workout name required",
+    },
+    duration: {
+      type: Number,
+      required: "Workout duration required",
+    },
     weight: Number,
     sets: Number,
-    reps: Number
+    reps: Number,
+    distance: Number
   }
 ]
 });
