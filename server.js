@@ -12,22 +12,18 @@ app.use(express.static(path.join(__dirname + "/public")));
 // Routes
 app.use(require("./routes/api-routes.js"));
 app.use(require("./routes/html-routes.js"));
-// mongodb+srv://webmasterShane112:Shaylyn112@cluster0.larjt.mongodb.net/workout?retryWrites=true&w=majority
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
-// mongoose.connect(
-//   process.env.MONGODB_URI || 'mongodb://localhost/workout',
-//   {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//     useCreateIndex: true,
-//     useFindAndModify: false
-//   }
-// ).then(()=>{
-//   console.log("Connected to the Database");
-// })
-// .catch(err => {
-//   console.log(err);
-// });
+
+// mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
+mongoose.connect(
+  process.env.MONGODB_URI || 'mongodb://localhost/workout',
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+  }
+)
+
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}!`);
 });
